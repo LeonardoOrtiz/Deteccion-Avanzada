@@ -1,0 +1,133 @@
+# ========================================
+# Configuración de Quarto - Proyecto LOF y One-Class SVM
+# Exposición universitaria sobre detección de anomalías
+# ========================================
+
+project:
+  type: website
+  output-dir: _output
+
+# Configuración de Website
+website:
+  title: "Detección de Anomalías: LOF y One-Class SVM"
+  navbar:
+    title: "Anomalías en Datos"
+    logo: images/logo.png
+    left:
+      - text: "Contenido"
+        href: index.qmd
+      - text: "Presentación"
+        href: slides.qmd
+  
+  # Pie de página
+  page-footer:
+    left: "Minería de Datos Avanzada | 2024"
+    right: "LOF & One-Class SVM"
+    border: true
+
+# Configuración de Formato HTML
+format:
+  html:
+    # Tema y apariencia
+    theme: cosmo
+    highlight-style: github
+    code-block-background: true
+    code-line-numbers: true
+    
+    # Estructura del documento
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    toc-title: "Tabla de Contenidos"
+    
+    # Numeración
+    number-sections: true
+    number-depth: 3
+    
+    # Estilos personalizados
+    include-in-header:
+      text: |
+        <link rel="stylesheet" href="styles.css">
+    
+    # Márgenes y diseño
+    margin-top: 2em
+    margin-bottom: 2em
+    margin-left: 2em
+    margin-right: 2em
+    
+    # Soporte para referencias
+    citations-hover: true
+    footnotes-hover: true
+    
+    # Citas y bibliografía
+    csl: https://www.zotero.org/styles/ieee-with-url
+    
+  # Configuración de PDF
+  pdf:
+    documentclass: article
+    classoption:
+      - oneside
+      - 11pt
+    geometry:
+      - margin=1in
+    
+    # Tabla de contenidos
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    number-depth: 3
+    
+    # Apariencia
+    colorlinks: true
+    include-in-header:
+      text: |
+        \usepackage{xcolor}
+        \definecolor{linkcolor}{rgb}{0.2,0.4,0.7}
+        \hypersetup{linkcolor=linkcolor}
+
+# Configuración de RevealJS para diapositivas
+reveal:
+  # Tema visual
+  theme: moon
+  width: 1200
+  height: 800
+  margin: 0.1
+  
+  # Navegación y transiciones
+  transition: slide
+  transition-speed: default
+  controls: true
+  progress: true
+  center: true
+  
+  # Numeración de diapositivas
+  slide-number: true
+  slide-number-format: "%current% / %total%"
+  
+  # Animaciones
+  auto-animate: true
+  auto-animate-duration: 0.8
+  
+  # Preguntas
+  hash: true
+  history: true
+
+# Ejecución de código R
+execute:
+  eval: true
+  echo: true
+  warning: false
+  message: false
+  cache: false
+  freeze: false
+
+# Knitr options
+knitr:
+  opts_chunk:
+    echo: true
+    eval: true
+    warning: false
+    message: false
+    fig.width: 8
+    fig.height: 6
+    dpi: 300

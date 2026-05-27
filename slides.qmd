@@ -1,0 +1,366 @@
+---
+title: "Detección de Anomalías en Datos"
+subtitle: "LOF y One-Class SVM"
+author: "Almacenes y Minería de Datos Equipo 8"
+
+format:
+  revealjs:
+    theme: moon
+    transition: slide
+    slide-number: true
+    chalkboard: false
+    preview-links: false
+
+    width: 1200
+    height: 800
+    margin: 0.1
+
+    controls: true
+    progress: true
+    center: true
+
+    auto-animate: true
+    auto-animate-duration: 0.8
+
+lang: es
+---
+
+## Introducción {auto-animate="true"}
+
+::: {.incremental}
+
+- **¿Qué son las anomalías?**  
+  Patrones inusuales en datos.
+
+- **¿Por qué importan?**  
+  Detección de fraude y seguridad.
+
+:::
+
+---
+
+## Aplicaciones Reales
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+### Finanzas
+
+- Fraude bancario
+- Transacciones sospechosas
+- Lavado de dinero
+
+:::
+
+::: {.column width="50%"}
+
+### Seguridad
+
+- Intrusiones en redes
+- Comportamiento anómalo de usuarios
+- Actividades maliciosas
+
+:::
+
+::::
+
+---
+
+## LOF: Local Outlier Factor {auto-animate="true"}
+
+### Idea Principal
+
+Una anomalía tiene una **densidad local significativamente menor** que sus vecinos.
+
+```python
+# Una anomalía es relativa a su contexto local
+
+anomalia = densidad_vecinos >> densidad_punto
+```
+
+::: {.fragment}
+
+### Ventajas
+
+- Detecta anomalías locales
+- Muy interpretable
+
+### Desventajas
+
+- Complejidad O(n²)
+- Sensible al parámetro k
+
+:::
+
+---
+
+## LOF: Funcionamiento {auto-animate="true"}
+
+### Paso 1: k-Nearest Neighbors
+
+Encontrar los k puntos más cercanos.
+
+### Paso 2: Reachability Distance
+
+$$
+\text{reach-dist}_k(\mathbf{x}, \mathbf{y})
+=
+\max\{
+k\text{-distance}(\mathbf{y}),
+d(\mathbf{x}, \mathbf{y})
+\}
+$$
+
+### Paso 3: LRD y LOF
+
+$$
+\text{LOF}_k(\mathbf{x})
+=
+\frac{
+\text{densidad promedio vecinos}
+}{
+\text{densidad del punto}
+}
+$$
+
+---
+
+## LOF: Interpretación del Score {auto-animate="true"}
+
+| Valor | Significado |
+|---|---|
+| LOF ≈ 1 | Normal |
+| LOF > 1 | Sospechoso |
+| LOF >> 1 | Anomalía fuerte |
+
+---
+
+## One-Class SVM {auto-animate="true"}
+
+### Idea Principal
+
+Entrenar únicamente con datos normales y aprender una frontera de decisión.
+
+::: {.fragment}
+
+### Ventajas
+
+- Frontera flexible
+- Bueno en altas dimensiones
+
+### Desventajas
+
+- Requiere sintonización
+- Menos interpretable
+
+:::
+
+---
+
+## One-Class SVM: El Hiperplano {auto-animate="true"}
+
+::: {.fragment}
+
+### Función Objetivo
+
+$$
+\min_{\mathbf{w}, b, \boldsymbol{\xi}}
+\frac{1}{2}\|\mathbf{w}\|^2
++
+\frac{1}{\nu n}
+\sum_{i=1}^{n}\xi_i
+-
+b
+$$
+
+:::
+
+::: {.fragment}
+
+### Parámetro $\nu$
+
+- $\nu = 0.1$ → permitir hasta 10% anomalías
+- $\nu = 0.05$ → permitir hasta 5% anomalías
+- Valores pequeños → frontera más conservadora
+
+:::
+
+---
+
+## Comparación: LOF vs One-Class SVM
+
+| Aspecto | LOF | One-Class SVM |
+|---|---|---|
+| Tipo | Densidad local | Frontera |
+| Parámetro principal | k | ν |
+| Anomalías locales | Excelente | Regular |
+| Anomalías globales | Regular | Mejor |
+| Escalabilidad | Media | Alta |
+
+---
+
+## Implementación: LOF
+
+```python
+# ============================================
+# LOF en Python
+# ============================================
+
+import numpy as np
+from sklearn.neighbors import LocalOutlierFactor
+
+# Datos de ejemplo
+X = np.array([
+    [1,1],
+    [1.2,1.1],
+    [0.8,1],
+    [8,8]
+])
+
+# Crear modelo LOF
+modelo_lof = LocalOutlierFactor(
+    n_neighbors=2,
+    contamination=0.25
+)
+
+# Detectar anomalías
+predicciones = modelo_lof.fit_predict(X)
+
+print(predicciones)
+
+# 1 = normal
+# -1 = anomalía
+```
+
+---
+
+## Implementación: One-Class SVM
+
+```python
+# ============================================
+# One-Class SVM
+# ============================================
+
+import numpy as np
+from sklearn.svm import OneClassSVM
+
+# Datos normales
+X_normales = np.array([
+    [1,1],
+    [1.1,1],
+    [0.9,1.2],
+    [1,0.8]
+])
+
+# Crear modelo
+modelo = OneClassSVM(
+    kernel="rbf",
+    gamma=0.1,
+    nu=0.05
+)
+
+# Entrenar
+modelo.fit(X_normales)
+
+# Nuevos datos
+X_test = np.array([
+    [1,1],
+    [10,10]
+])
+
+# Predicción
+predicciones = modelo.predict(X_test)
+
+print(predicciones)
+
+# 1 = normal
+# -1 = anomalía
+```
+
+::: {.fragment}
+
+### Paso a paso
+
+1. Entrenar con datos normales
+2. Construir la frontera
+3. Evaluar nuevos puntos
+
+:::
+
+---
+
+## Caso Práctico: Fraude Bancario {auto-animate="true"}
+
+```{mermaid}
+graph LR
+    A["10,000 transacciones"] --> B["Características"]
+    B --> C["LOF y One-Class SVM"]
+    C --> D["Detectar anomalías"]
+    D --> E["Fraude potencial"]
+```
+
+---
+
+## Caso Práctico
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+### Transacciones Normales
+
+- Monto promedio: \$500
+- Horario habitual
+- Clientes frecuentes
+- 2 a 3 transacciones diarias
+
+:::
+
+::: {.column width="50%"}
+
+### Transacciones Fraudulentas
+
+- Monto elevado
+- Horario inusual
+- Muchas transacciones
+- Ubicación extraña
+
+:::
+
+::::
+
+---
+
+## Preguntas de Reflexión {auto-animate="true"}
+
+### Pregunta 1
+
+¿En qué situaciones LOF funciona mejor que One-Class SVM?
+
+---
+
+### Pregunta 2
+
+¿Cómo afecta el parámetro k al comportamiento de LOF?
+
+---
+
+### Pregunta 3
+
+---
+
+## Conclusiones
+
+::: {.incremental}
+
+1. LOF y One-Class SVM usan enfoques distintos.
+2. LOF se basa en densidad local.
+3. One-Class SVM se basa en fronteras.
+4. Ambos son útiles para detección de fraude y ciberseguridad.
+
+:::
+
+---
+
+## Recursos

@@ -1,0 +1,339 @@
+/* ========================================
+   Estilos Personalizados - Proyecto LOF & One-Class SVM
+   ======================================== */
+
+/* Colores personalizados */
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #3498db;
+  --accent-color: #e74c3c;
+  --success-color: #27ae60;
+  --warning-color: #f39c12;
+}
+
+/* Tipografía general */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #2c3e50;
+}
+
+/* Títulos */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  letter-spacing: -0.5px;
+}
+
+h1 {
+  border-bottom: 3px solid var(--secondary-color);
+  padding-bottom: 0.3em;
+  font-size: 2.2em;
+}
+
+h2 {
+  color: var(--secondary-color);
+  font-size: 1.8em;
+}
+
+h3 {
+  color: var(--primary-color);
+  font-size: 1.4em;
+}
+
+/* Párrafos y texto */
+p {
+  margin-bottom: 1em;
+  text-align: justify;
+}
+
+a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent-color);
+  border-bottom-color: var(--accent-color);
+}
+
+/* Código */
+code {
+  background-color: #f5f5f5;
+  color: #c7254e;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9em;
+}
+
+pre {
+  background-color: #282c34;
+  color: #abb2bf;
+  padding: 1.2em;
+  border-radius: 5px;
+  overflow-x: auto;
+  border-left: 4px solid var(--secondary-color);
+  margin: 1em 0;
+  line-height: 1.5;
+}
+
+pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* Bloques de notas y advertencias */
+.callout {
+  padding: 1.2em;
+  margin: 1em 0;
+  border-radius: 5px;
+  border-left: 4px solid var(--secondary-color);
+}
+
+.callout-note {
+  background-color: #e3f2fd;
+  border-left-color: var(--secondary-color);
+}
+
+.callout-warning {
+  background-color: #fff3cd;
+  border-left-color: var(--warning-color);
+}
+
+.callout-important {
+  background-color: #f8d7da;
+  border-left-color: var(--accent-color);
+}
+
+.callout-tip {
+  background-color: #d4edda;
+  border-left-color: var(--success-color);
+}
+
+/* Tablas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+thead {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+thead th {
+  padding: 1em;
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9em;
+  letter-spacing: 0.5px;
+}
+
+tbody td {
+  padding: 0.8em 1em;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Listas */
+ul, ol {
+  margin-left: 1.5em;
+  margin-bottom: 1em;
+}
+
+li {
+  margin-bottom: 0.5em;
+}
+
+li::marker {
+  color: var(--secondary-color);
+  font-weight: 600;
+}
+
+/* Imágenes */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  margin: 1.5em 0;
+}
+
+/* Figuras y captions */
+figure {
+  text-align: center;
+  margin: 2em 0;
+}
+
+figcaption {
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 0.5em;
+  font-style: italic;
+}
+
+/* Ecuaciones LaTeX */
+.math {
+  font-size: 1.1em;
+}
+
+/* Diagramas Mermaid */
+.mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 2em 0;
+  background-color: #f9f9f9;
+  padding: 1.5em;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+/* Citas */
+blockquote {
+  margin: 1.5em 0;
+  padding: 1em 1.5em;
+  border-left: 4px solid var(--secondary-color);
+  background-color: #f5f5f5;
+  font-style: italic;
+  color: #555;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+blockquote footer {
+  font-size: 0.9em;
+  color: #999;
+  margin-top: 0.5em;
+}
+
+/* Separadores */
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--secondary-color), transparent);
+  margin: 2em 0;
+}
+
+/* Tabla de contenidos */
+.toc {
+  background-color: #f9f9f9;
+  padding: 1.5em;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.toc-item {
+  margin: 0.5em 0;
+}
+
+.toc-item a {
+  color: var(--secondary-color);
+}
+
+/* Página de título */
+.title-slide {
+  text-align: center;
+  padding: 3em 0;
+}
+
+.title-slide h1 {
+  border: none;
+  font-size: 3em;
+  margin-bottom: 0.5em;
+  color: var(--primary-color);
+}
+
+.title-slide .author,
+.title-slide .date {
+  font-size: 1.2em;
+  color: #666;
+}
+
+/* Pie de página responsivo */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8em;
+  }
+  
+  h2 {
+    font-size: 1.4em;
+  }
+  
+  h3 {
+    font-size: 1.1em;
+  }
+  
+  pre {
+    font-size: 0.85em;
+    padding: 1em;
+  }
+  
+  table {
+    font-size: 0.9em;
+  }
+  
+  thead th,
+  tbody td {
+    padding: 0.6em;
+  }
+}
+
+/* Impresión */
+@media print {
+  body {
+    color: black;
+    background-color: white;
+  }
+  
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+  
+  pre {
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+    color: black;
+  }
+  
+  code {
+    color: black;
+    background-color: #f5f5f5;
+  }
+}
+
+/* Animaciones suaves */
+@media (prefers-reduced-motion: no-preference) {
+  a {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  img {
+    transition: transform 0.3s ease;
+  }
+  
+  img:hover {
+    transform: scale(1.02);
+  }
+}
