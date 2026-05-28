@@ -9,7 +9,7 @@ format:
     transition: slide
     slide-number: true
     chalkboard: false
-    preview-links: false
+    preview-links: false    
 
     width: 1200
     height: 800
@@ -25,16 +25,15 @@ format:
 lang: es
 ---
 
-## Introducción {auto-animate="true"}
+## 1. Introducción {auto-animate="true"}
 
 ::: {.incremental}
-
-- **¿Qué son las anomalías?**  
-  Patrones inusuales en datos.
-
-- **¿Por qué importan?**  
-  Detección de fraude y seguridad.
-
+- **¿Qué son las anomalías?** Patrones inusuales o valores atípicos (*outliers*) que se desvían de forma severa del comportamiento esperado en un sistema de datos.
+- **¿Por qué importan?** Actúan como un sistema automatizado de alerta temprana.
+  - **Ciberseguridad:** Prevención de fraudes bancarios y detección de intrusiones en redes.
+  - **Mantenimiento Predictivo:** Monitoreo industrial (sensores) para evitar fallos costosos antes de que ocurran.
+  - **Salud:** Análisis e identificación de anomalías en imágenes médicas (tumores).
+  - **Calidad de Datos:** Filtrado y limpieza de "ruido" o capturas erróneas.
 :::
 
 ---
@@ -44,23 +43,35 @@ lang: es
 :::: {.columns}
 
 ::: {.column width="50%"}
-
 ### Finanzas
-
 - Fraude bancario
 - Transacciones sospechosas
 - Lavado de dinero
-
 :::
 
 ::: {.column width="50%"}
-
 ### Seguridad
-
 - Intrusiones en redes
 - Comportamiento anómalo de usuarios
 - Actividades maliciosas
+:::
 
+::::
+
+:::: {.columns}
+
+::: {.column width="50%"}
+### Medicina
+- Detección de picos de enfermedades
+- Monitoreo de propagación 
+- Detección de Imágenes
+:::
+
+::: {.column width="50%"}
+### Calidad de Datos
+- Detección de datos erróneos
+- Ruido en los datos
+- Monitoreo de los datos
 :::
 
 ::::
@@ -85,11 +96,14 @@ anomalia = densidad_vecinos >> densidad_punto
 
 - Detecta anomalías locales
 - Muy interpretable
+- Clusters irregulares
+- Densidad de Variables 
 
 ### Desventajas
 
 - Complejidad O(n²)
 - Sensible al parámetro k
+- Difil de usar en tiempo real
 
 :::
 
@@ -112,7 +126,7 @@ d(\mathbf{x}, \mathbf{y})
 \}
 $$
 
-### Paso 3: LRD y LOF
+### Paso 3: Densidad de Alcanzabilidad Local (LRD) y LOF
 
 $$
 \text{LOF}_k(\mathbf{x})
@@ -141,6 +155,7 @@ $$
 ### Idea Principal
 
 Entrenar únicamente con datos normales y aprender una frontera de decisión.
+Se entrena al modelo **únicamente con datos de comportamiento normal**. El algoritmo aprende las propiedades de esta clase y traza un límite que la envuelve de forma compacta. Cualquier dato fuera de ese borde es una anomalía.
 
 ::: {.fragment}
 
@@ -161,6 +176,10 @@ Entrenar únicamente con datos normales y aprender una frontera de decisión.
 ## One-Class SVM: El Hiperplano {auto-animate="true"}
 
 ::: {.fragment}
+
+- Aprendizaje No Supervisado
+- Comportamienot de una clase (Normal)
+- 
 
 ### Función Objetivo
 
@@ -347,6 +366,8 @@ graph LR
 ---
 
 ### Pregunta 3
+
+¿Qué otras aplicacionese en la industria tiene One-Class?
 
 ---
 
