@@ -3,29 +3,29 @@
     "objectID": "slides.html#introducción",
     "href": "slides.html#introducción",
     "title": "Detección de Anomalías en Datos",
-    "section": "Introducción",
-    "text": "Introducción\n\n¿Qué son las anomalías?\nPatrones inusuales en datos.\n¿Por qué importan?\nDetección de fraude y seguridad."
+    "section": "1. Introducción",
+    "text": "1. Introducción\n\n¿Qué son las anomalías? Patrones inusuales o valores atípicos (outliers) que se desvían de forma severa del comportamiento esperado en un sistema de datos.\n¿Por qué importan? Actúan como un sistema automatizado de alerta temprana.\n\nCiberseguridad: Prevención de fraudes bancarios y detección de intrusiones en redes.\nMantenimiento Predictivo: Monitoreo industrial (sensores) para evitar fallos costosos antes de que ocurran.\nSalud: Análisis e identificación de anomalías en imágenes médicas (tumores).\nCalidad de Datos: Filtrado y limpieza de “ruido” o capturas erróneas."
   },
   {
     "objectID": "slides.html#aplicaciones-reales",
     "href": "slides.html#aplicaciones-reales",
     "title": "Detección de Anomalías en Datos",
     "section": "Aplicaciones Reales",
-    "text": "Aplicaciones Reales\n\n\nFinanzas\n\nFraude bancario\nTransacciones sospechosas\nLavado de dinero\n\n\nSeguridad\n\nIntrusiones en redes\nComportamiento anómalo de usuarios\nActividades maliciosas"
+    "text": "Aplicaciones Reales\n\n\nFinanzas\n\nFraude bancario\nTransacciones sospechosas\nLavado de dinero\n\n\nSeguridad\n\nIntrusiones en redes\nComportamiento anómalo de usuarios\nActividades maliciosas\n\n\n\n\nMedicina\n\nDetección de picos de enfermedades\nMonitoreo de propagación\nDetección de Imágenes\n\n\nCalidad de Datos\n\nDetección de datos erróneos\nRuido en los datos\nMonitoreo de los datos"
   },
   {
     "objectID": "slides.html#lof-local-outlier-factor",
     "href": "slides.html#lof-local-outlier-factor",
     "title": "Detección de Anomalías en Datos",
     "section": "LOF: Local Outlier Factor",
-    "text": "LOF: Local Outlier Factor\nIdea Principal\nUna anomalía tiene una densidad local significativamente menor que sus vecinos.\n# Una anomalía es relativa a su contexto local\n\nanomalia = densidad_vecinos &gt;&gt; densidad_punto\n\nVentajas\n\nDetecta anomalías locales\nMuy interpretable\n\nDesventajas\n\nComplejidad O(n²)\nSensible al parámetro k"
+    "text": "LOF: Local Outlier Factor\nIdea Principal\nUna anomalía tiene una densidad local significativamente menor que sus vecinos.\n# Una anomalía es relativa a su contexto local\n\nanomalia = densidad_vecinos &gt;&gt; densidad_punto\n\nVentajas\n\nDetecta anomalías locales\nMuy interpretable\nClusters irregulares\nDensidad de Variables\n\nDesventajas\n\nComplejidad O(n²)\nSensible al parámetro k\nDifil de usar en tiempo real"
   },
   {
     "objectID": "slides.html#lof-funcionamiento",
     "href": "slides.html#lof-funcionamiento",
     "title": "Detección de Anomalías en Datos",
     "section": "LOF: Funcionamiento",
-    "text": "LOF: Funcionamiento\nPaso 1: k-Nearest Neighbors\nEncontrar los k puntos más cercanos.\nPaso 2: Reachability Distance\n\\[\n\\text{reach-dist}_k(\\mathbf{x}, \\mathbf{y})\n=\n\\max\\{\nk\\text{-distance}(\\mathbf{y}),\nd(\\mathbf{x}, \\mathbf{y})\n\\}\n\\]\nPaso 3: LRD y LOF\n\\[\n\\text{LOF}_k(\\mathbf{x})\n=\n\\frac{\n\\text{densidad promedio vecinos}\n}{\n\\text{densidad del punto}\n}\n\\]"
+    "text": "LOF: Funcionamiento\nPaso 1: k-Nearest Neighbors\nEncontrar los k puntos más cercanos.\nPaso 2: Reachability Distance\n\\[\n\\text{reach-dist}_k(\\mathbf{x}, \\mathbf{y})\n=\n\\max\\{\nk\\text{-distance}(\\mathbf{y}),\nd(\\mathbf{x}, \\mathbf{y})\n\\}\n\\]\nPaso 3: Densidad de Alcanzabilidad Local (LRD) y LOF\n\\[\n\\text{LOF}_k(\\mathbf{x})\n=\n\\frac{\n\\text{densidad promedio vecinos}\n}{\n\\text{densidad del punto}\n}\n\\]"
   },
   {
     "objectID": "slides.html#lof-interpretación-del-score",
@@ -39,14 +39,14 @@
     "href": "slides.html#one-class-svm",
     "title": "Detección de Anomalías en Datos",
     "section": "One-Class SVM",
-    "text": "One-Class SVM\nIdea Principal\nEntrenar únicamente con datos normales y aprender una frontera de decisión.\n\nVentajas\n\nFrontera flexible\nBueno en altas dimensiones\n\nDesventajas\n\nRequiere sintonización\nMenos interpretable"
+    "text": "One-Class SVM\nIdea Principal\nEntrenar únicamente con datos normales y aprender una frontera de decisión. Se entrena al modelo únicamente con datos de comportamiento normal. El algoritmo aprende las propiedades de esta clase y traza un límite que la envuelve de forma compacta. Cualquier dato fuera de ese borde es una anomalía.\n\nVentajas\n\nFrontera flexible\nBueno en altas dimensiones\n\nDesventajas\n\nRequiere sintonización\nMenos interpretable"
   },
   {
     "objectID": "slides.html#one-class-svm-el-hiperplano",
     "href": "slides.html#one-class-svm-el-hiperplano",
     "title": "Detección de Anomalías en Datos",
     "section": "One-Class SVM: El Hiperplano",
-    "text": "One-Class SVM: El Hiperplano\n\nFunción Objetivo\n\\[\n\\min_{\\mathbf{w}, b, \\boldsymbol{\\xi}}\n\\frac{1}{2}\\|\\mathbf{w}\\|^2\n+\n\\frac{1}{\\nu n}\n\\sum_{i=1}^{n}\\xi_i\n-\nb\n\\]\n\n\nParámetro \\(\\nu\\)\n\n\\(\\nu = 0.1\\) → permitir hasta 10% anomalías\n\\(\\nu = 0.05\\) → permitir hasta 5% anomalías\nValores pequeños → frontera más conservadora"
+    "text": "One-Class SVM: El Hiperplano\n\n\nAprendizaje No Supervisado\nComportamienot de una clase (Normal)\n\n\nFunción Objetivo\n\\[\n\\min_{\\mathbf{w}, b, \\boldsymbol{\\xi}}\n\\frac{1}{2}\\|\\mathbf{w}\\|^2\n+\n\\frac{1}{\\nu n}\n\\sum_{i=1}^{n}\\xi_i\n-\nb\n\\]\n\n\nParámetro \\(\\nu\\)\n\n\\(\\nu = 0.1\\) → permitir hasta 10% anomalías\n\\(\\nu = 0.05\\) → permitir hasta 5% anomalías\nValores pequeños → frontera más conservadora"
   },
   {
     "objectID": "slides.html#comparación-lof-vs-one-class-svm",

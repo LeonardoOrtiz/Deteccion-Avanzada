@@ -6,8 +6,8 @@
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.37">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Almacenes y Minería de Datos Equipo 8">
   <title>Detección de Anomalías: LOF y One-Class SVM – Detección de Anomalías en Datos</title>
@@ -212,12 +212,16 @@ Almacenes y Minería de Datos Equipo 8
 
 </section>
 <section id="introducción" class="slide level2 center" data-auto-animate="true">
-<h2 data-id="quarto-animate-title">Introducción</h2>
+<h2 data-id="quarto-animate-title">1. Introducción</h2>
 <ul>
-<li class="fragment"><p><strong>¿Qué son las anomalías?</strong><br>
-Patrones inusuales en datos.</p></li>
-<li class="fragment"><p><strong>¿Por qué importan?</strong><br>
-Detección de fraude y seguridad.</p></li>
+<li class="fragment"><strong>¿Qué son las anomalías?</strong> Patrones inusuales o valores atípicos (<em>outliers</em>) que se desvían de forma severa del comportamiento esperado en un sistema de datos.</li>
+<li class="fragment"><strong>¿Por qué importan?</strong> Actúan como un sistema automatizado de alerta temprana.
+<ul>
+<li class="fragment"><strong>Ciberseguridad:</strong> Prevención de fraudes bancarios y detección de intrusiones en redes.</li>
+<li class="fragment"><strong>Mantenimiento Predictivo:</strong> Monitoreo industrial (sensores) para evitar fallos costosos antes de que ocurran.</li>
+<li class="fragment"><strong>Salud:</strong> Análisis e identificación de anomalías en imágenes médicas (tumores).</li>
+<li class="fragment"><strong>Calidad de Datos:</strong> Filtrado y limpieza de “ruido” o capturas erróneas.</li>
+</ul></li>
 </ul>
 </section>
 <section id="aplicaciones-reales" class="slide level2 center">
@@ -238,6 +242,22 @@ Detección de fraude y seguridad.</p></li>
 <li>Actividades maliciosas</li>
 </ul>
 </div></div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="medicina">Medicina</h3>
+<ul>
+<li>Detección de picos de enfermedades</li>
+<li>Monitoreo de propagación</li>
+<li>Detección de Imágenes</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="calidad-de-datos">Calidad de Datos</h3>
+<ul>
+<li>Detección de datos erróneos</li>
+<li>Ruido en los datos</li>
+<li>Monitoreo de los datos</li>
+</ul>
+</div></div>
 </section>
 <section id="lof-local-outlier-factor" class="slide level2 center" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">LOF: Local Outlier Factor</h2>
@@ -251,11 +271,14 @@ Detección de fraude y seguridad.</p></li>
 <ul>
 <li>Detecta anomalías locales</li>
 <li>Muy interpretable</li>
+<li>Clusters irregulares</li>
+<li>Densidad de Variables</li>
 </ul>
 <h3 id="desventajas">Desventajas</h3>
 <ul>
 <li>Complejidad O(n²)</li>
 <li>Sensible al parámetro k</li>
+<li>Difil de usar en tiempo real</li>
 </ul>
 </div>
 </section>
@@ -272,7 +295,7 @@ k\text{-distance}(\mathbf{y}),
 d(\mathbf{x}, \mathbf{y})
 \}
 \]</span></p>
-<h3 id="paso-3-lrd-y-lof">Paso 3: LRD y LOF</h3>
+<h3 id="paso-3-densidad-de-alcanzabilidad-local-lrd-y-lof">Paso 3: Densidad de Alcanzabilidad Local (LRD) y LOF</h3>
 <p><span class="math display">\[
 \text{LOF}_k(\mathbf{x})
 =
@@ -311,7 +334,7 @@ d(\mathbf{x}, \mathbf{y})
 <section id="one-class-svm" class="slide level2 center" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">One-Class SVM</h2>
 <h3 id="idea-principal-1">Idea Principal</h3>
-<p>Entrenar únicamente con datos normales y aprender una frontera de decisión.</p>
+<p>Entrenar únicamente con datos normales y aprender una frontera de decisión. Se entrena al modelo <strong>únicamente con datos de comportamiento normal</strong>. El algoritmo aprende las propiedades de esta clase y traza un límite que la envuelve de forma compacta. Cualquier dato fuera de ese borde es una anomalía.</p>
 <div class="fragment">
 <h3 id="ventajas-1">Ventajas</h3>
 <ul>
@@ -328,6 +351,11 @@ d(\mathbf{x}, \mathbf{y})
 <section id="one-class-svm-el-hiperplano" class="slide level2 center" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">One-Class SVM: El Hiperplano</h2>
 <div class="fragment">
+<ul>
+<li>Aprendizaje No Supervisado</li>
+<li>Comportamienot de una clase (Normal)</li>
+<li></li>
+</ul>
 <h3 id="función-objetivo">Función Objetivo</h3>
 <p><span class="math display">\[
 \min_{\mathbf{w}, b, \boldsymbol{\xi}}
@@ -525,6 +553,7 @@ b
 <section class="slide level2 center">
 
 <h3 id="pregunta-3">Pregunta 3</h3>
+<p>¿Qué otras aplicacionese en la industria tiene One-Class?</p>
 </section>
 <section id="conclusiones" class="slide level2 center">
 <h2>Conclusiones</h2>
