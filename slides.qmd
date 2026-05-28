@@ -347,6 +347,12 @@ graph LR
 ---
 
 ### Pregunta 3
+¿Cómo afecta el parámetro Nu y el parametro Kernel al comportamiento de OneClassSVM?
+
+---
+
+### Pregunta 4
+¿Cuál es la complejidad de estos dos algoritmos?
 
 ---
 
