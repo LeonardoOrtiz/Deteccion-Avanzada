@@ -186,63 +186,29 @@ $$\min_{w,b,\xi} \frac{1}{2}\|w\|^2 + \frac{1}{\nu n}\sum_{i=1}^{n}\xi_i - b$$
 
 ## Implementación: LOF
 
-```python
-# ============================================
-# LOF en Python
-# ============================================
+![Detección de Anomalías con LOF](images/lof_plot.png){width="80%" fig-align="center"}
 
-import numpy as np
-from sklearn.neighbors import LocalOutlierFactor
-
-# Datos de ejemplo
-X = np.array([
-    [1,1],
-    [1.2,1.1],
-    [0.8,1],
-    [8,8]
-])
-
-# Crear modelo LOF
-modelo_lof = LocalOutlierFactor(
-    n_neighbors=2,
-    contamination=0.25
-)
-
-# Detectar anomalías
-predicciones = modelo_lof.fit_predict(X)
-
-print(predicciones)
-
-# 1 = normal
-# -1 = anomalía
-```
+**Código:** El modelo identifica puntos con baja densidad local como anomalías
 
 ---
 
-## Implementación: One-Class SVM {.smaller}
+## Implementación: One-Class SVM
 
-```python
-from sklearn.svm import OneClassSVM
-import numpy as np
+![One-Class SVM: Frontera de Decisión](images/svm_plot.png){width="80%" fig-align="center"}
 
-# Datos normales
-X = np.array([[1,1], [1.1,1], [0.9,1.2], [1,0.8]])
-
-# Crear y entrenar
-modelo = OneClassSVM(kernel="rbf", gamma=0.1, nu=0.05)
-modelo.fit(X)
-
-# Predicción
-X_test = np.array([[1,1], [10,10]])
-predicciones = modelo.predict(X_test)
-# 1 = normal, -1 = anomalía
-```
+**Resultado:** El modelo aprende una frontera compacta alrededor de los datos normales (azul) y clasifica nuevos puntos como normales (verde) o anomalías (rojo)
 
 ::: {.fragment}
 
 **Paso a paso:** Entrenar → Frontera → Evaluar
 
 :::
+
+---
+
+## Implementación: One-Class SVM
+
+![One-Class SVM: Frontera de Decisión](images/image.png){width="80%" fig-align="center"}
 
 ---
 
@@ -328,3 +294,12 @@ predicciones = modelo.predict(X_test)
 ---
 
 ## Recursos
+
+- López Gaona, A., Avilés Rosas, G., & López Mendoza, S. (2021). *Minería de datos con R* (1.ª ed.). Universidad Nacional Autónoma de México, Facultad de Ciencias. ISBN: 978-607-30-4750-0.
+
+- MCP Analytics. (s.f.). *One-Class SVM: Practical Guide for Data-Driven Decisions*. Recuperado de:
+  https://mcpanalytics.ai/articles/one-class-svm-practical-guide-for-data-driven-decisions
+
+- Documentación oficial de scikit-learn:
+  - https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html
+  - https://scikit-learn.org/stable/modules/generated/sklearn.svm.OneClassSVM.html

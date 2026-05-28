@@ -60,14 +60,21 @@
     "href": "slides.html#implementación-lof",
     "title": "Detección de Anomalías en Datos",
     "section": "Implementación: LOF",
-    "text": "Implementación: LOF\n# ============================================\n# LOF en Python\n# ============================================\n\nimport numpy as np\nfrom sklearn.neighbors import LocalOutlierFactor\n\n# Datos de ejemplo\nX = np.array([\n    [1,1],\n    [1.2,1.1],\n    [0.8,1],\n    [8,8]\n])\n\n# Crear modelo LOF\nmodelo_lof = LocalOutlierFactor(\n    n_neighbors=2,\n    contamination=0.25\n)\n\n# Detectar anomalías\npredicciones = modelo_lof.fit_predict(X)\n\nprint(predicciones)\n\n# 1 = normal\n# -1 = anomalía"
+    "text": "Implementación: LOF\n\nDetección de Anomalías con LOFCódigo: El modelo identifica puntos con baja densidad local como anomalías"
   },
   {
     "objectID": "slides.html#implementación-one-class-svm",
     "href": "slides.html#implementación-one-class-svm",
     "title": "Detección de Anomalías en Datos",
     "section": "Implementación: One-Class SVM",
-    "text": "Implementación: One-Class SVM\nfrom sklearn.svm import OneClassSVM\nimport numpy as np\n\n# Datos normales\nX = np.array([[1,1], [1.1,1], [0.9,1.2], [1,0.8]])\n\n# Crear y entrenar\nmodelo = OneClassSVM(kernel=\"rbf\", gamma=0.1, nu=0.05)\nmodelo.fit(X)\n\n# Predicción\nX_test = np.array([[1,1], [10,10]])\npredicciones = modelo.predict(X_test)\n# 1 = normal, -1 = anomalía\n\nPaso a paso: Entrenar → Frontera → Evaluar"
+    "text": "Implementación: One-Class SVM\n\nOne-Class SVM: Frontera de DecisiónResultado: El modelo aprende una frontera compacta alrededor de los datos normales (azul) y clasifica nuevos puntos como normales (verde) o anomalías (rojo)\n\nPaso a paso: Entrenar → Frontera → Evaluar"
+  },
+  {
+    "objectID": "slides.html#implementación-one-class-svm-1",
+    "href": "slides.html#implementación-one-class-svm-1",
+    "title": "Detección de Anomalías en Datos",
+    "section": "Implementación: One-Class SVM",
+    "text": "Implementación: One-Class SVM\n\nOne-Class SVM: Frontera de Decisión"
   },
   {
     "objectID": "slides.html#caso-práctico-fraude-bancario",
@@ -102,6 +109,6 @@
     "href": "slides.html#recursos",
     "title": "Detección de Anomalías en Datos",
     "section": "Recursos",
-    "text": "Recursos"
+    "text": "Recursos\n\nLópez Gaona, A., Avilés Rosas, G., & López Mendoza, S. (2021). Minería de datos con R (1.ª ed.). Universidad Nacional Autónoma de México, Facultad de Ciencias. ISBN: 978-607-30-4750-0.\nMCP Analytics. (s.f.). One-Class SVM: Practical Guide for Data-Driven Decisions. Recuperado de: https://mcpanalytics.ai/articles/one-class-svm-practical-guide-for-data-driven-decisions\nDocumentación oficial de scikit-learn:\n\nhttps://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html\nhttps://scikit-learn.org/stable/modules/generated/sklearn.svm.OneClassSVM.html"
   }
 ]

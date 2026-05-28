@@ -359,55 +359,21 @@ Almacenes y Minería de Datos Equipo 8
 </section>
 <section id="implementación-lof" class="slide level2 center">
 <h2>Implementación: LOF</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a><span class="co"># ============================================</span></span>
-<span id="cb2-2"><a></a><span class="co"># LOF en Python</span></span>
-<span id="cb2-3"><a></a><span class="co"># ============================================</span></span>
-<span id="cb2-4"><a></a></span>
-<span id="cb2-5"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-6"><a></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> LocalOutlierFactor</span>
-<span id="cb2-7"><a></a></span>
-<span id="cb2-8"><a></a><span class="co"># Datos de ejemplo</span></span>
-<span id="cb2-9"><a></a>X <span class="op">=</span> np.array([</span>
-<span id="cb2-10"><a></a>    [<span class="dv">1</span>,<span class="dv">1</span>],</span>
-<span id="cb2-11"><a></a>    [<span class="fl">1.2</span>,<span class="fl">1.1</span>],</span>
-<span id="cb2-12"><a></a>    [<span class="fl">0.8</span>,<span class="dv">1</span>],</span>
-<span id="cb2-13"><a></a>    [<span class="dv">8</span>,<span class="dv">8</span>]</span>
-<span id="cb2-14"><a></a>])</span>
-<span id="cb2-15"><a></a></span>
-<span id="cb2-16"><a></a><span class="co"># Crear modelo LOF</span></span>
-<span id="cb2-17"><a></a>modelo_lof <span class="op">=</span> LocalOutlierFactor(</span>
-<span id="cb2-18"><a></a>    n_neighbors<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb2-19"><a></a>    contamination<span class="op">=</span><span class="fl">0.25</span></span>
-<span id="cb2-20"><a></a>)</span>
-<span id="cb2-21"><a></a></span>
-<span id="cb2-22"><a></a><span class="co"># Detectar anomalías</span></span>
-<span id="cb2-23"><a></a>predicciones <span class="op">=</span> modelo_lof.fit_predict(X)</span>
-<span id="cb2-24"><a></a></span>
-<span id="cb2-25"><a></a><span class="bu">print</span>(predicciones)</span>
-<span id="cb2-26"><a></a></span>
-<span id="cb2-27"><a></a><span class="co"># 1 = normal</span></span>
-<span id="cb2-28"><a></a><span class="co"># -1 = anomalía</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+
+<img data-src="images/lof_plot.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption">Detección de Anomalías con LOF</p><p><strong>Código:</strong> El modelo identifica puntos con baja densidad local como anomalías</p>
 </section>
-<section id="implementación-one-class-svm" class="slide level2 smaller center">
+<section id="implementación-one-class-svm" class="slide level2 center">
 <h2>Implementación: One-Class SVM</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="im">from</span> sklearn.svm <span class="im">import</span> OneClassSVM</span>
-<span id="cb3-2"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-3"><a></a></span>
-<span id="cb3-4"><a></a><span class="co"># Datos normales</span></span>
-<span id="cb3-5"><a></a>X <span class="op">=</span> np.array([[<span class="dv">1</span>,<span class="dv">1</span>], [<span class="fl">1.1</span>,<span class="dv">1</span>], [<span class="fl">0.9</span>,<span class="fl">1.2</span>], [<span class="dv">1</span>,<span class="fl">0.8</span>]])</span>
-<span id="cb3-6"><a></a></span>
-<span id="cb3-7"><a></a><span class="co"># Crear y entrenar</span></span>
-<span id="cb3-8"><a></a>modelo <span class="op">=</span> OneClassSVM(kernel<span class="op">=</span><span class="st">"rbf"</span>, gamma<span class="op">=</span><span class="fl">0.1</span>, nu<span class="op">=</span><span class="fl">0.05</span>)</span>
-<span id="cb3-9"><a></a>modelo.fit(X)</span>
-<span id="cb3-10"><a></a></span>
-<span id="cb3-11"><a></a><span class="co"># Predicción</span></span>
-<span id="cb3-12"><a></a>X_test <span class="op">=</span> np.array([[<span class="dv">1</span>,<span class="dv">1</span>], [<span class="dv">10</span>,<span class="dv">10</span>]])</span>
-<span id="cb3-13"><a></a>predicciones <span class="op">=</span> modelo.predict(X_test)</span>
-<span id="cb3-14"><a></a><span class="co"># 1 = normal, -1 = anomalía</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+
+<img data-src="images/svm_plot.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption">One-Class SVM: Frontera de Decisión</p><p><strong>Resultado:</strong> El modelo aprende una frontera compacta alrededor de los datos normales (azul) y clasifica nuevos puntos como normales (verde) o anomalías (rojo)</p>
 <div class="fragment">
 <p><strong>Paso a paso:</strong> Entrenar → Frontera → Evaluar</p>
 </div>
 </section>
+<section id="implementación-one-class-svm-1" class="slide level2 center">
+<h2>Implementación: One-Class SVM</h2>
+
+<img data-src="images/image.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption">One-Class SVM: Frontera de Decisión</p></section>
 <section id="caso-práctico-fraude-bancario" class="slide level2 center" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Caso Práctico: Fraude Bancario</h2>
 <div class="columns">
@@ -469,6 +435,15 @@ Almacenes y Minería de Datos Equipo 8
 </section>
 <section id="recursos" class="slide level2 center">
 <h2>Recursos</h2>
+<ul>
+<li><p>López Gaona, A., Avilés Rosas, G., &amp; López Mendoza, S. (2021). <em>Minería de datos con R</em> (1.ª ed.). Universidad Nacional Autónoma de México, Facultad de Ciencias. ISBN: 978-607-30-4750-0.</p></li>
+<li><p>MCP Analytics. (s.f.). <em>One-Class SVM: Practical Guide for Data-Driven Decisions</em>. Recuperado de: https://mcpanalytics.ai/articles/one-class-svm-practical-guide-for-data-driven-decisions</p></li>
+<li><p>Documentación oficial de scikit-learn:</p>
+<ul>
+<li>https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html</li>
+<li>https://scikit-learn.org/stable/modules/generated/sklearn.svm.OneClassSVM.html</li>
+</ul></li>
+</ul>
 
 
 </section>
