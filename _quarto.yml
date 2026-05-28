@@ -5,7 +5,7 @@
 
 project:
   type: website
-  output-dir: _output
+  output-dir: docs
 
 # Configuración de Website
 website:

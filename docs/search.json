@@ -1,0 +1,114 @@
+[
+  {
+    "objectID": "slides.html#introducción",
+    "href": "slides.html#introducción",
+    "title": "Detección de Anomalías en Datos",
+    "section": "1. Introducción",
+    "text": "1. Introducción\n\n¿Qué son las anomalías? Valores atípicos que se desvían del comportamiento esperado.\n¿Por qué importan? Sistema automatizado de alerta temprana\n\nCiberseguridad: Fraudes bancarios e intrusiones\nMantenimiento Predictivo: Evitar fallos costosos\nSalud: Anomalías en imágenes médicas\nCalidad de Datos: Filtrado de ruido"
+  },
+  {
+    "objectID": "slides.html#aplicaciones-reales",
+    "href": "slides.html#aplicaciones-reales",
+    "title": "Detección de Anomalías en Datos",
+    "section": "Aplicaciones Reales",
+    "text": "Aplicaciones Reales\n\n\nFinanzas\n\nFraude bancario\nTransacciones sospechosas\nLavado de dinero\n\n\nSeguridad\n\nIntrusiones en redes\nComportamiento anómalo de usuarios\nActividades maliciosas\n\n\n\n\nMedicina\n\nDetección de picos de enfermedades\nMonitoreo de propagación\nDetección de Imágenes\n\n\nCalidad de Datos\n\nDetección de datos erróneos\nRuido en los datos\nMonitoreo de los datos"
+  },
+  {
+    "objectID": "slides.html#lof-local-outlier-factor",
+    "href": "slides.html#lof-local-outlier-factor",
+    "title": "Detección de Anomalías en Datos",
+    "section": "LOF: Local Outlier Factor",
+    "text": "LOF: Local Outlier Factor\nIdea Principal: Densidad local significativamente menor que vecinos\nanomalia = densidad_vecinos &gt;&gt; densidad_punto\n\n\nVentajas - Anomalías locales - Interpretable - Clusters irregulares\n\nDesventajas - Complejidad O(n²) - Sensible al parámetro k - Difícil en tiempo real"
+  },
+  {
+    "objectID": "slides.html#lof-funcionamiento",
+    "href": "slides.html#lof-funcionamiento",
+    "title": "Detección de Anomalías en Datos",
+    "section": "LOF: Funcionamiento",
+    "text": "LOF: Funcionamiento\nPaso 1: k-Nearest Neighbors - Encontrar los k puntos más cercanos.\nPaso 2: Reachability Distance \\[\\text{reach-dist}_k(x, y) = \\max\\{k\\text{-distance}(y), d(x, y)\\}\\]\nPaso 3: LOF (Local Outlier Factor) \\[\\text{LOF}_k(x) = \\frac{\\text{densidad vecinos}}{\\text{densidad del punto}}\\]"
+  },
+  {
+    "objectID": "slides.html#lof-interpretación-del-score",
+    "href": "slides.html#lof-interpretación-del-score",
+    "title": "Detección de Anomalías en Datos",
+    "section": "LOF: Interpretación del Score",
+    "text": "LOF: Interpretación del Score\n\n\n\nValor\nSignificado\n\n\n\n\nLOF ≈ 1\nNormal\n\n\nLOF &gt; 1\nSospechoso\n\n\nLOF &gt;&gt; 1\nAnomalía fuerte"
+  },
+  {
+    "objectID": "slides.html#one-class-svm",
+    "href": "slides.html#one-class-svm",
+    "title": "Detección de Anomalías en Datos",
+    "section": "One-Class SVM",
+    "text": "One-Class SVM\nIdea Principal: Entrenar con datos normales, aprender una frontera compacta\n\n\nVentajas - Frontera flexible - Bueno en altas dimensiones\n\nDesventajas - Requiere sintonización - Menos interpretable"
+  },
+  {
+    "objectID": "slides.html#one-class-svm-el-hiperplano",
+    "href": "slides.html#one-class-svm-el-hiperplano",
+    "title": "Detección de Anomalías en Datos",
+    "section": "One-Class SVM: El Hiperplano",
+    "text": "One-Class SVM: El Hiperplano\n\nAprendizaje No Supervisado - Comportamiento de una clase normal\nFunción Objetivo \\[\\min_{w,b,\\xi} \\frac{1}{2}\\|w\\|^2 + \\frac{1}{\\nu n}\\sum_{i=1}^{n}\\xi_i - b\\]\n\n\nParámetro \\(\\nu\\) - \\(\\nu = 0.1\\): 10% anomalías permitidas - \\(\\nu = 0.05\\): 5% anomalías permitidas - Valores pequeños → frontera conservadora"
+  },
+  {
+    "objectID": "slides.html#comparación-lof-vs-one-class-svm",
+    "href": "slides.html#comparación-lof-vs-one-class-svm",
+    "title": "Detección de Anomalías en Datos",
+    "section": "Comparación: LOF vs One-Class SVM",
+    "text": "Comparación: LOF vs One-Class SVM\n\n\n\nAspecto\nLOF\nOne-Class SVM\n\n\n\n\nTipo\nDensidad local\nFrontera\n\n\nParámetro principal\nk\nν\n\n\nAnomalías locales\nExcelente\nRegular\n\n\nAnomalías globales\nRegular\nMejor\n\n\nEscalabilidad\nMedia\nAlta"
+  },
+  {
+    "objectID": "slides.html#implementación-lof",
+    "href": "slides.html#implementación-lof",
+    "title": "Detección de Anomalías en Datos",
+    "section": "Implementación: LOF",
+    "text": "Implementación: LOF\n\nDetección de Anomalías con LOFCódigo: El modelo identifica puntos con baja densidad local como anomalías"
+  },
+  {
+    "objectID": "slides.html#implementación-one-class-svm",
+    "href": "slides.html#implementación-one-class-svm",
+    "title": "Detección de Anomalías en Datos",
+    "section": "Implementación: One-Class SVM",
+    "text": "Implementación: One-Class SVM\n\nOne-Class SVM: Frontera de DecisiónResultado: El modelo aprende una frontera compacta alrededor de los datos normales (azul) y clasifica nuevos puntos como normales (verde) o anomalías (rojo)\n\nPaso a paso: Entrenar → Frontera → Evaluar"
+  },
+  {
+    "objectID": "slides.html#implementación-one-class-svm-1",
+    "href": "slides.html#implementación-one-class-svm-1",
+    "title": "Detección de Anomalías en Datos",
+    "section": "Implementación: One-Class SVM",
+    "text": "Implementación: One-Class SVM\n\nOne-Class SVM: Frontera de Decisión"
+  },
+  {
+    "objectID": "slides.html#caso-práctico-fraude-bancario",
+    "href": "slides.html#caso-práctico-fraude-bancario",
+    "title": "Detección de Anomalías en Datos",
+    "section": "Caso Práctico: Fraude Bancario",
+    "text": "Caso Práctico: Fraude Bancario\n\n\nFlujo de Análisis:\n\nPaso 1: 10,000 transacciones bancarias\nPaso 2: Extraer características (monto, hora, ubicación, frecuencia)\nPaso 3: Aplicar LOF y One-Class SVM\nPaso 4: Detectar anomalías\nPaso 5: Clasificar como fraude potencial"
+  },
+  {
+    "objectID": "slides.html#caso-práctico",
+    "href": "slides.html#caso-práctico",
+    "title": "Detección de Anomalías en Datos",
+    "section": "Caso Práctico",
+    "text": "Caso Práctico\n\n\nTransacciones Normales\n\nMonto promedio: $500\nHorario habitual\nClientes frecuentes\n2 a 3 transacciones diarias\n\n\nTransacciones Fraudulentas\n\nMonto elevado\nHorario inusual\nMuchas transacciones\nUbicación extraña"
+  },
+  {
+    "objectID": "slides.html#preguntas-de-reflexión",
+    "href": "slides.html#preguntas-de-reflexión",
+    "title": "Detección de Anomalías en Datos",
+    "section": "Preguntas de Reflexión",
+    "text": "Preguntas de Reflexión\nPregunta 1\n¿En qué situaciones LOF funciona mejor que One-Class SVM?"
+  },
+  {
+    "objectID": "slides.html#conclusiones",
+    "href": "slides.html#conclusiones",
+    "title": "Detección de Anomalías en Datos",
+    "section": "Conclusiones",
+    "text": "Conclusiones\n\nLOF y One-Class SVM usan enfoques distintos.\nLOF se basa en densidad local.\nOne-Class SVM se basa en fronteras.\nAmbos son útiles para detección de fraude y ciberseguridad."
+  },
+  {
+    "objectID": "slides.html#recursos",
+    "href": "slides.html#recursos",
+    "title": "Detección de Anomalías en Datos",
+    "section": "Recursos",
+    "text": "Recursos\n\nLópez Gaona, A., Avilés Rosas, G., & López Mendoza, S. (2021). Minería de datos con R (1.ª ed.). Universidad Nacional Autónoma de México, Facultad de Ciencias. ISBN: 978-607-30-4750-0.\nMCP Analytics. (s.f.). One-Class SVM: Practical Guide for Data-Driven Decisions. Recuperado de: https://mcpanalytics.ai/articles/one-class-svm-practical-guide-for-data-driven-decisions\nDocumentación oficial de scikit-learn:\n\nhttps://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html\nhttps://scikit-learn.org/stable/modules/generated/sklearn.svm.OneClassSVM.html"
+  }
+]
