@@ -6,8 +6,8 @@
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.38">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Almacenes y Minería de Datos Equipo 8">
   <title>Detección de Anomalías: LOF y One-Class SVM – Detección de Anomalías en Datos</title>
@@ -190,9 +190,6 @@
       margin-right: 0; 
     }
   </style>
-  <script src="site_libs/quarto-diagram/mermaid.min.js"></script>
-  <script src="site_libs/quarto-diagram/mermaid-init.js"></script>
-  <link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 </head>
 <body class="quarto-dark">
   <div class="reveal">
@@ -214,13 +211,13 @@ Almacenes y Minería de Datos Equipo 8
 <section id="introducción" class="slide level2 center" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">1. Introducción</h2>
 <ul>
-<li class="fragment"><strong>¿Qué son las anomalías?</strong> Patrones inusuales o valores atípicos (<em>outliers</em>) que se desvían de forma severa del comportamiento esperado en un sistema de datos.</li>
-<li class="fragment"><strong>¿Por qué importan?</strong> Actúan como un sistema automatizado de alerta temprana.
+<li class="fragment"><strong>¿Qué son las anomalías?</strong> Valores atípicos que se desvían del comportamiento esperado.</li>
+<li class="fragment"><strong>¿Por qué importan?</strong> Sistema automatizado de alerta temprana
 <ul>
-<li class="fragment"><strong>Ciberseguridad:</strong> Prevención de fraudes bancarios y detección de intrusiones en redes.</li>
-<li class="fragment"><strong>Mantenimiento Predictivo:</strong> Monitoreo industrial (sensores) para evitar fallos costosos antes de que ocurran.</li>
-<li class="fragment"><strong>Salud:</strong> Análisis e identificación de anomalías en imágenes médicas (tumores).</li>
-<li class="fragment"><strong>Calidad de Datos:</strong> Filtrado y limpieza de “ruido” o capturas erróneas.</li>
+<li class="fragment"><strong>Ciberseguridad:</strong> Fraudes bancarios e intrusiones</li>
+<li class="fragment"><strong>Mantenimiento Predictivo:</strong> Evitar fallos costosos</li>
+<li class="fragment"><strong>Salud:</strong> Anomalías en imágenes médicas</li>
+<li class="fragment"><strong>Calidad de Datos:</strong> Filtrado de ruido</li>
 </ul></li>
 </ul>
 </section>
@@ -261,50 +258,20 @@ Almacenes y Minería de Datos Equipo 8
 </section>
 <section id="lof-local-outlier-factor" class="slide level2 center" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">LOF: Local Outlier Factor</h2>
-<h3 id="idea-principal">Idea Principal</h3>
-<p>Una anomalía tiene una <strong>densidad local significativamente menor</strong> que sus vecinos.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode python hljs"><span id="cb1-1" class="hljs-ln-code"><a></a><span class="co"># Una anomalía es relativa a su contexto local</span></span>
-<span id="cb1-2" class="hljs-ln-code"><a></a></span>
-<span id="cb1-3" class="hljs-ln-code"><a></a>anomalia <span class="op">=</span> densidad_vecinos <span class="op">&gt;&gt;</span> densidad_punto</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="fragment">
-<h3 id="ventajas">Ventajas</h3>
-<ul>
-<li>Detecta anomalías locales</li>
-<li>Muy interpretable</li>
-<li>Clusters irregulares</li>
-<li>Densidad de Variables</li>
-</ul>
-<h3 id="desventajas">Desventajas</h3>
-<ul>
-<li>Complejidad O(n²)</li>
-<li>Sensible al parámetro k</li>
-<li>Difil de usar en tiempo real</li>
-</ul>
-</div>
+<p><strong>Idea Principal:</strong> Densidad local significativamente menor que vecinos</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode python hljs"><span id="cb1-1" class="hljs-ln-code"><a></a>anomalia <span class="op">=</span> densidad_vecinos <span class="op">&gt;&gt;</span> densidad_punto</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Ventajas</strong> - Anomalías locales - Interpretable - Clusters irregulares</p>
+</div><div class="column" style="width:50%;">
+<p><strong>Desventajas</strong> - Complejidad O(n²) - Sensible al parámetro k - Difícil en tiempo real</p>
+</div></div>
 </section>
 <section id="lof-funcionamiento" class="slide level2 center" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">LOF: Funcionamiento</h2>
-<h3 id="paso-1-k-nearest-neighbors">Paso 1: k-Nearest Neighbors</h3>
-<p>Encontrar los k puntos más cercanos.</p>
-<h3 id="paso-2-reachability-distance">Paso 2: Reachability Distance</h3>
-<p><span class="math display">\[
-\text{reach-dist}_k(\mathbf{x}, \mathbf{y})
-=
-\max\{
-k\text{-distance}(\mathbf{y}),
-d(\mathbf{x}, \mathbf{y})
-\}
-\]</span></p>
-<h3 id="paso-3-densidad-de-alcanzabilidad-local-lrd-y-lof">Paso 3: Densidad de Alcanzabilidad Local (LRD) y LOF</h3>
-<p><span class="math display">\[
-\text{LOF}_k(\mathbf{x})
-=
-\frac{
-\text{densidad promedio vecinos}
-}{
-\text{densidad del punto}
-}
-\]</span></p>
+<p><strong>Paso 1: k-Nearest Neighbors</strong> - Encontrar los k puntos más cercanos.</p>
+<p><strong>Paso 2: Reachability Distance</strong> <span class="math display">\[\text{reach-dist}_k(x, y) = \max\{k\text{-distance}(y), d(x, y)\}\]</span></p>
+<p><strong>Paso 3: LOF (Local Outlier Factor)</strong> <span class="math display">\[\text{LOF}_k(x) = \frac{\text{densidad vecinos}}{\text{densidad del punto}}\]</span></p>
 </section>
 <section id="lof-interpretación-del-score" class="slide level2 center" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">LOF: Interpretación del Score</h2>
@@ -333,47 +300,22 @@ d(\mathbf{x}, \mathbf{y})
 </section>
 <section id="one-class-svm" class="slide level2 center" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">One-Class SVM</h2>
-<h3 id="idea-principal-1">Idea Principal</h3>
-<p>Entrenar únicamente con datos normales y aprender una frontera de decisión. Se entrena al modelo <strong>únicamente con datos de comportamiento normal</strong>. El algoritmo aprende las propiedades de esta clase y traza un límite que la envuelve de forma compacta. Cualquier dato fuera de ese borde es una anomalía.</p>
-<div class="fragment">
-<h3 id="ventajas-1">Ventajas</h3>
-<ul>
-<li>Frontera flexible</li>
-<li>Bueno en altas dimensiones</li>
-</ul>
-<h3 id="desventajas-1">Desventajas</h3>
-<ul>
-<li>Requiere sintonización</li>
-<li>Menos interpretable</li>
-</ul>
-</div>
+<p><strong>Idea Principal:</strong> Entrenar con datos normales, aprender una frontera compacta</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Ventajas</strong> - Frontera flexible - Bueno en altas dimensiones</p>
+</div><div class="column" style="width:50%;">
+<p><strong>Desventajas</strong> - Requiere sintonización - Menos interpretable</p>
+</div></div>
 </section>
-<section id="one-class-svm-el-hiperplano" class="slide level2 center" data-auto-animate="true">
+<section id="one-class-svm-el-hiperplano" class="slide level2 smaller center" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">One-Class SVM: El Hiperplano</h2>
 <div class="fragment">
-<ul>
-<li>Aprendizaje No Supervisado</li>
-<li>Comportamienot de una clase (Normal)</li>
-<li></li>
-</ul>
-<h3 id="función-objetivo">Función Objetivo</h3>
-<p><span class="math display">\[
-\min_{\mathbf{w}, b, \boldsymbol{\xi}}
-\frac{1}{2}\|\mathbf{w}\|^2
-+
-\frac{1}{\nu n}
-\sum_{i=1}^{n}\xi_i
--
-b
-\]</span></p>
+<p><strong>Aprendizaje No Supervisado</strong> - Comportamiento de una clase normal</p>
+<p><strong>Función Objetivo</strong> <span class="math display">\[\min_{w,b,\xi} \frac{1}{2}\|w\|^2 + \frac{1}{\nu n}\sum_{i=1}^{n}\xi_i - b\]</span></p>
 </div>
 <div class="fragment">
-<h3 id="parámetro-nu">Parámetro <span class="math inline">\(\nu\)</span></h3>
-<ul>
-<li><span class="math inline">\(\nu = 0.1\)</span> → permitir hasta 10% anomalías</li>
-<li><span class="math inline">\(\nu = 0.05\)</span> → permitir hasta 5% anomalías</li>
-<li>Valores pequeños → frontera más conservadora</li>
-</ul>
+<p><strong>Parámetro <span class="math inline">\(\nu\)</span></strong> - <span class="math inline">\(\nu = 0.1\)</span>: 10% anomalías permitidas - <span class="math inline">\(\nu = 0.05\)</span>: 5% anomalías permitidas - Valores pequeños → frontera conservadora</p>
 </div>
 </section>
 <section id="comparación-lof-vs-one-class-svm" class="slide level2 center">
@@ -446,78 +388,39 @@ b
 <span id="cb2-27"><a></a><span class="co"># 1 = normal</span></span>
 <span id="cb2-28"><a></a><span class="co"># -1 = anomalía</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="implementación-one-class-svm" class="slide level2 center">
+<section id="implementación-one-class-svm" class="slide level2 smaller center">
 <h2>Implementación: One-Class SVM</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="co"># ============================================</span></span>
-<span id="cb3-2"><a></a><span class="co"># One-Class SVM</span></span>
-<span id="cb3-3"><a></a><span class="co"># ============================================</span></span>
-<span id="cb3-4"><a></a></span>
-<span id="cb3-5"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-6"><a></a><span class="im">from</span> sklearn.svm <span class="im">import</span> OneClassSVM</span>
-<span id="cb3-7"><a></a></span>
-<span id="cb3-8"><a></a><span class="co"># Datos normales</span></span>
-<span id="cb3-9"><a></a>X_normales <span class="op">=</span> np.array([</span>
-<span id="cb3-10"><a></a>    [<span class="dv">1</span>,<span class="dv">1</span>],</span>
-<span id="cb3-11"><a></a>    [<span class="fl">1.1</span>,<span class="dv">1</span>],</span>
-<span id="cb3-12"><a></a>    [<span class="fl">0.9</span>,<span class="fl">1.2</span>],</span>
-<span id="cb3-13"><a></a>    [<span class="dv">1</span>,<span class="fl">0.8</span>]</span>
-<span id="cb3-14"><a></a>])</span>
-<span id="cb3-15"><a></a></span>
-<span id="cb3-16"><a></a><span class="co"># Crear modelo</span></span>
-<span id="cb3-17"><a></a>modelo <span class="op">=</span> OneClassSVM(</span>
-<span id="cb3-18"><a></a>    kernel<span class="op">=</span><span class="st">"rbf"</span>,</span>
-<span id="cb3-19"><a></a>    gamma<span class="op">=</span><span class="fl">0.1</span>,</span>
-<span id="cb3-20"><a></a>    nu<span class="op">=</span><span class="fl">0.05</span></span>
-<span id="cb3-21"><a></a>)</span>
-<span id="cb3-22"><a></a></span>
-<span id="cb3-23"><a></a><span class="co"># Entrenar</span></span>
-<span id="cb3-24"><a></a>modelo.fit(X_normales)</span>
-<span id="cb3-25"><a></a></span>
-<span id="cb3-26"><a></a><span class="co"># Nuevos datos</span></span>
-<span id="cb3-27"><a></a>X_test <span class="op">=</span> np.array([</span>
-<span id="cb3-28"><a></a>    [<span class="dv">1</span>,<span class="dv">1</span>],</span>
-<span id="cb3-29"><a></a>    [<span class="dv">10</span>,<span class="dv">10</span>]</span>
-<span id="cb3-30"><a></a>])</span>
-<span id="cb3-31"><a></a></span>
-<span id="cb3-32"><a></a><span class="co"># Predicción</span></span>
-<span id="cb3-33"><a></a>predicciones <span class="op">=</span> modelo.predict(X_test)</span>
-<span id="cb3-34"><a></a></span>
-<span id="cb3-35"><a></a><span class="bu">print</span>(predicciones)</span>
-<span id="cb3-36"><a></a></span>
-<span id="cb3-37"><a></a><span class="co"># 1 = normal</span></span>
-<span id="cb3-38"><a></a><span class="co"># -1 = anomalía</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="im">from</span> sklearn.svm <span class="im">import</span> OneClassSVM</span>
+<span id="cb3-2"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-3"><a></a></span>
+<span id="cb3-4"><a></a><span class="co"># Datos normales</span></span>
+<span id="cb3-5"><a></a>X <span class="op">=</span> np.array([[<span class="dv">1</span>,<span class="dv">1</span>], [<span class="fl">1.1</span>,<span class="dv">1</span>], [<span class="fl">0.9</span>,<span class="fl">1.2</span>], [<span class="dv">1</span>,<span class="fl">0.8</span>]])</span>
+<span id="cb3-6"><a></a></span>
+<span id="cb3-7"><a></a><span class="co"># Crear y entrenar</span></span>
+<span id="cb3-8"><a></a>modelo <span class="op">=</span> OneClassSVM(kernel<span class="op">=</span><span class="st">"rbf"</span>, gamma<span class="op">=</span><span class="fl">0.1</span>, nu<span class="op">=</span><span class="fl">0.05</span>)</span>
+<span id="cb3-9"><a></a>modelo.fit(X)</span>
+<span id="cb3-10"><a></a></span>
+<span id="cb3-11"><a></a><span class="co"># Predicción</span></span>
+<span id="cb3-12"><a></a>X_test <span class="op">=</span> np.array([[<span class="dv">1</span>,<span class="dv">1</span>], [<span class="dv">10</span>,<span class="dv">10</span>]])</span>
+<span id="cb3-13"><a></a>predicciones <span class="op">=</span> modelo.predict(X_test)</span>
+<span id="cb3-14"><a></a><span class="co"># 1 = normal, -1 = anomalía</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="fragment">
-<h3 id="paso-a-paso">Paso a paso</h3>
-<ol type="1">
-<li>Entrenar con datos normales</li>
-<li>Construir la frontera</li>
-<li>Evaluar nuevos puntos</li>
-</ol>
+<p><strong>Paso a paso:</strong> Entrenar → Frontera → Evaluar</p>
 </div>
 </section>
 <section id="caso-práctico-fraude-bancario" class="slide level2 center" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Caso Práctico: Fraude Bancario</h2>
-<div class="cell" data-reveal="true" data-layout-align="default">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource default number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode default hljs"><span id="cb4-1" class="hljs-ln-code"><a></a>graph LR</span>
-<span id="cb4-2" class="hljs-ln-code"><a></a>    A["10,000 transacciones"] --&gt; B["Características"]</span>
-<span id="cb4-3" class="hljs-ln-code"><a></a>    B --&gt; C["LOF y One-Class SVM"]</span>
-<span id="cb4-4" class="hljs-ln-code"><a></a>    C --&gt; D["Detectar anomalías"]</span>
-<span id="cb4-5" class="hljs-ln-code"><a></a>    D --&gt; E["Fraude potencial"]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<p></p><figure class=""><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph LR
-    A["10,000 transacciones"] --&gt; B["Características"]
-    B --&gt; C["LOF y One-Class SVM"]
-    C --&gt; D["Detectar anomalías"]
-    D --&gt; E["Fraude potencial"]
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
+<div class="columns">
+<div class="column" style="width:100%;">
+<p><strong>Flujo de Análisis:</strong></p>
+<ul>
+<li><strong>Paso 1:</strong> 10,000 transacciones bancarias</li>
+<li><strong>Paso 2:</strong> Extraer características (monto, hora, ubicación, frecuencia)</li>
+<li><strong>Paso 3:</strong> Aplicar LOF y One-Class SVM</li>
+<li><strong>Paso 4:</strong> Detectar anomalías</li>
+<li><strong>Paso 5:</strong> Clasificar como fraude potencial</li>
+</ul>
+</div></div>
 </section>
 <section id="caso-práctico" class="slide level2 center">
 <h2>Caso Práctico</h2>

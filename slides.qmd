@@ -28,12 +28,12 @@ lang: es
 ## 1. Introducción {auto-animate="true"}
 
 ::: {.incremental}
-- **¿Qué son las anomalías?** Patrones inusuales o valores atípicos (*outliers*) que se desvían de forma severa del comportamiento esperado en un sistema de datos.
-- **¿Por qué importan?** Actúan como un sistema automatizado de alerta temprana.
-  - **Ciberseguridad:** Prevención de fraudes bancarios y detección de intrusiones en redes.
-  - **Mantenimiento Predictivo:** Monitoreo industrial (sensores) para evitar fallos costosos antes de que ocurran.
-  - **Salud:** Análisis e identificación de anomalías en imágenes médicas (tumores).
-  - **Calidad de Datos:** Filtrado y limpieza de "ruido" o capturas erróneas.
+- **¿Qué son las anomalías?** Valores atípicos que se desvían del comportamiento esperado.
+- **¿Por qué importan?** Sistema automatizado de alerta temprana
+  - **Ciberseguridad:** Fraudes bancarios e intrusiones
+  - **Mantenimiento Predictivo:** Evitar fallos costosos
+  - **Salud:** Anomalías en imágenes médicas
+  - **Calidad de Datos:** Filtrado de ruido
 :::
 
 ---
@@ -80,30 +80,27 @@ lang: es
 
 ## LOF: Local Outlier Factor {auto-animate="true"}
 
-### Idea Principal
-
-Una anomalía tiene una **densidad local significativamente menor** que sus vecinos.
+**Idea Principal:** Densidad local significativamente menor que vecinos
 
 ```python
-# Una anomalía es relativa a su contexto local
-
 anomalia = densidad_vecinos >> densidad_punto
 ```
 
-::: {.fragment}
+::: {.columns}
 
-### Ventajas
-
-- Detecta anomalías locales
-- Muy interpretable
+::: {.column width="50%"}
+**Ventajas**
+- Anomalías locales
+- Interpretable
 - Clusters irregulares
-- Densidad de Variables 
+:::
 
-### Desventajas
-
+::: {.column width="50%"}
+**Desventajas**
 - Complejidad O(n²)
 - Sensible al parámetro k
-- Difil de usar en tiempo real
+- Difícil en tiempo real
+:::
 
 :::
 
@@ -111,32 +108,13 @@ anomalia = densidad_vecinos >> densidad_punto
 
 ## LOF: Funcionamiento {auto-animate="true"}
 
-### Paso 1: k-Nearest Neighbors
+**Paso 1: k-Nearest Neighbors** - Encontrar los k puntos más cercanos.
 
-Encontrar los k puntos más cercanos.
+**Paso 2: Reachability Distance**
+$$\text{reach-dist}_k(x, y) = \max\{k\text{-distance}(y), d(x, y)\}$$
 
-### Paso 2: Reachability Distance
-
-$$
-\text{reach-dist}_k(\mathbf{x}, \mathbf{y})
-=
-\max\{
-k\text{-distance}(\mathbf{y}),
-d(\mathbf{x}, \mathbf{y})
-\}
-$$
-
-### Paso 3: Densidad de Alcanzabilidad Local (LRD) y LOF
-
-$$
-\text{LOF}_k(\mathbf{x})
-=
-\frac{
-\text{densidad promedio vecinos}
-}{
-\text{densidad del punto}
-}
-$$
+**Paso 3: LOF (Local Outlier Factor)**
+$$\text{LOF}_k(x) = \frac{\text{densidad vecinos}}{\text{densidad del punto}}$$
 
 ---
 
@@ -152,56 +130,43 @@ $$
 
 ## One-Class SVM {auto-animate="true"}
 
-### Idea Principal
+**Idea Principal:** Entrenar con datos normales, aprender una frontera compacta
 
-Entrenar únicamente con datos normales y aprender una frontera de decisión.
-Se entrena al modelo **únicamente con datos de comportamiento normal**. El algoritmo aprende las propiedades de esta clase y traza un límite que la envuelve de forma compacta. Cualquier dato fuera de ese borde es una anomalía.
+::: {.columns}
 
-::: {.fragment}
-
-### Ventajas
-
+::: {.column width="50%"}
+**Ventajas**
 - Frontera flexible
 - Bueno en altas dimensiones
+:::
 
-### Desventajas
-
+::: {.column width="50%"}
+**Desventajas**
 - Requiere sintonización
 - Menos interpretable
+:::
 
 :::
 
 ---
 
-## One-Class SVM: El Hiperplano {auto-animate="true"}
+## One-Class SVM: El Hiperplano {auto-animate="true" .smaller}
 
 ::: {.fragment}
 
-- Aprendizaje No Supervisado
-- Comportamienot de una clase (Normal)
-- 
+**Aprendizaje No Supervisado** - Comportamiento de una clase normal
 
-### Función Objetivo
-
-$$
-\min_{\mathbf{w}, b, \boldsymbol{\xi}}
-\frac{1}{2}\|\mathbf{w}\|^2
-+
-\frac{1}{\nu n}
-\sum_{i=1}^{n}\xi_i
--
-b
-$$
+**Función Objetivo**
+$$\min_{w,b,\xi} \frac{1}{2}\|w\|^2 + \frac{1}{\nu n}\sum_{i=1}^{n}\xi_i - b$$
 
 :::
 
 ::: {.fragment}
 
-### Parámetro $\nu$
-
-- $\nu = 0.1$ → permitir hasta 10% anomalías
-- $\nu = 0.05$ → permitir hasta 5% anomalías
-- Valores pequeños → frontera más conservadora
+**Parámetro $\nu$**
+- $\nu = 0.1$: 10% anomalías permitidas
+- $\nu = 0.05$: 5% anomalías permitidas
+- Valores pequeños → frontera conservadora
 
 :::
 
@@ -254,56 +219,28 @@ print(predicciones)
 
 ---
 
-## Implementación: One-Class SVM
+## Implementación: One-Class SVM {.smaller}
 
 ```python
-# ============================================
-# One-Class SVM
-# ============================================
-
-import numpy as np
 from sklearn.svm import OneClassSVM
+import numpy as np
 
 # Datos normales
-X_normales = np.array([
-    [1,1],
-    [1.1,1],
-    [0.9,1.2],
-    [1,0.8]
-])
+X = np.array([[1,1], [1.1,1], [0.9,1.2], [1,0.8]])
 
-# Crear modelo
-modelo = OneClassSVM(
-    kernel="rbf",
-    gamma=0.1,
-    nu=0.05
-)
-
-# Entrenar
-modelo.fit(X_normales)
-
-# Nuevos datos
-X_test = np.array([
-    [1,1],
-    [10,10]
-])
+# Crear y entrenar
+modelo = OneClassSVM(kernel="rbf", gamma=0.1, nu=0.05)
+modelo.fit(X)
 
 # Predicción
+X_test = np.array([[1,1], [10,10]])
 predicciones = modelo.predict(X_test)
-
-print(predicciones)
-
-# 1 = normal
-# -1 = anomalía
+# 1 = normal, -1 = anomalía
 ```
 
 ::: {.fragment}
 
-### Paso a paso
-
-1. Entrenar con datos normales
-2. Construir la frontera
-3. Evaluar nuevos puntos
+**Paso a paso:** Entrenar → Frontera → Evaluar
 
 :::
 
@@ -311,13 +248,19 @@ print(predicciones)
 
 ## Caso Práctico: Fraude Bancario {auto-animate="true"}
 
-```{mermaid}
-graph LR
-    A["10,000 transacciones"] --> B["Características"]
-    B --> C["LOF y One-Class SVM"]
-    C --> D["Detectar anomalías"]
-    D --> E["Fraude potencial"]
-```
+::::: {.columns}
+::: {.column width="100%"}
+
+**Flujo de Análisis:**
+
+- **Paso 1:** 10,000 transacciones bancarias
+- **Paso 2:** Extraer características (monto, hora, ubicación, frecuencia)
+- **Paso 3:** Aplicar LOF y One-Class SVM
+- **Paso 4:** Detectar anomalías
+- **Paso 5:** Clasificar como fraude potencial
+
+:::
+:::::
 
 ---
 
